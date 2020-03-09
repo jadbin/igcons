@@ -1,0 +1,7 @@
+{
+  "authentication_type": "jwt",
+  "guniflask_version": "0.6.0a1",
+  "jwt_secret": "7aym5RUek2J1TzE09uJEOuQ2RiNkTNwSqGapImlzAMA",
+  "port": 8068,
+  "project_name": "igcons"
+}
