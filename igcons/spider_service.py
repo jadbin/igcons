@@ -14,9 +14,9 @@ class SpiderService:
         pass
 
     def submit_spider_task(self, spider_name: str, spider_options: dict = None, callback: str = None) -> dict:
-        # FIXME
+
         data = {'spider_name': spider_name, 'spider_options': spider_options, 'callback': callback}
-        response = requests.post('http://{}/api/submit-spider-task'.format(self.spider_service_address), json=data)
+        response = requests.post('http://{}/submit/spider-task'.format(self.spider_service_address), json=data)
         return response.json()
 
     def get_spider_status(self, token: str):

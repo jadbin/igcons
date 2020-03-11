@@ -9,3 +9,5 @@ JWT_SECRET = '7aym5RUek2J1TzE09uJEOuQ2RiNkTNwSqGapImlzAMA'
 
 server_address = 'localhost:8068'
 spider_service_address = 'localhost'
+expand_service_address = ''
+judge_service_address = ''
