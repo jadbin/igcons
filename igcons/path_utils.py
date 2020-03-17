@@ -46,3 +46,15 @@ class PathUtils:
     @create_if_not_exists
     def app_temp_dir(self, app_name, *args):
         return join(self.temp_dir, abspath(join('/', app_name, *args)))
+
+    @property
+    def spider_dir(self):
+        return settings['spider_dir']
+
+    @property
+    def spider_result_dir(self):
+        return join(self.spider_dir, ".spider_data")
+
+    @property
+    def spider_result_file(self):
+        return "result.json"

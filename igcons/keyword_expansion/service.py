@@ -28,7 +28,7 @@ class KeywordExpansionService:
 
         self.task_context_service = task_context_service
 
-    def start_keyword_expansion(self, keyword, options: dict = None):
+    def start_keyword_expansion(self, keyword: str, spider_name: str, options: dict = None):
         """
         采集接口
         :param keyword:
@@ -40,14 +40,13 @@ class KeywordExpansionService:
 
         callback = 'http://{}/api/keyword-expansion/spider-service-callback?task_token={}'.format(
             settings['server_address'], task_context.token)
-        spider_name = ''
         spider_options = {'keyword': keyword}
-        spider_task = self.spider_service.submit_spider_task(spider_name,
+        spider_task = self.spider_service.submit_spider_task(spider_name=spider_name,
                                                              spider_options=spider_options,
                                                              callback=callback)
 
-        task_context['spider_token'] = spider_task.get('token')
-        task_context['callback'] = spider_task.get('callback')
+        task_context['spider_token'] = spider_task['spider_token']
+        task_context['callback'] = spider_task['callback']
 
         self.task_context_service.suspend(task_context)
 
@@ -128,6 +127,9 @@ class KeywordExpansionService:
         """
         pass
 
+if __name__ == '__main__':
+
+    KeywordExpansionModelService.start_keyword_expansion("hello")
 
 
 

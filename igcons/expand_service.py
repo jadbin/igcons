@@ -22,7 +22,6 @@ class ExpandService:
     def get_expand_status(self, token: str):
         """
         """
-        # TODO
         pass
 
     def get_expand_results(self, token: str) -> list:

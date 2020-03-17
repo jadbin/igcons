@@ -8,6 +8,9 @@ JWT_SECRET = '7aym5RUek2J1TzE09uJEOuQ2RiNkTNwSqGapImlzAMA'
 # SQLALCHEMY_DATABASE_URI = ''
 
 server_address = 'localhost:8068'
-spider_service_address = 'localhost'
+spider_service_address = 'localhost:8012'
 expand_service_address = ''
 judge_service_address = ''
+
+
+spider_dir = '/home/carrie/workbench/Spiderflow/'
