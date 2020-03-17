@@ -12,5 +12,5 @@ spider_service_address = 'localhost:8012'
 expand_service_address = ''
 judge_service_address = ''
 
-
+task_context_dir = '/home/carrie/workbench/igcons/igcons/.task_context/'
 spider_dir = '/home/carrie/workbench/Spiderflow/'

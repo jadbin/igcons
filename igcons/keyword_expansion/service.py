@@ -46,16 +46,15 @@ class KeywordExpansionService:
                                                              callback=callback)
 
         task_context['spider_token'] = spider_task['spider_token']
-        task_context['callback'] = spider_task['callback']
-
         self.task_context_service.suspend(task_context)
 
     def recover_after_spider_service_callback(self, task_token):
         task_context = self.task_context_service.awake(task_token)
         # TODO: 异步运行 expand_keywords(task_context)
+        self.start_expand_keywords(task_context)
         pass
 
-    def expand_keywords(self, task_context):
+    def start_expand_keywords(self, task_context):
         """
         获取爬虫数据采集的结果，将 关键词拓展 交付运行
         :param task_context:
@@ -63,21 +62,23 @@ class KeywordExpansionService:
         """
 
         # 获取到爬虫的爬取结果
+        # spider_token=54c82f27c0d74930a3a60517df1be0bc
         spider_result = self.spider_service.get_spider_result(task_context['spider_token'])
+        print("!!!!!!!! spider_result: ", spider_result)
 
-        callback = 'http://{}/api/keyword-expansion/expand_keywords?task_token={}'.format(
-            settings['expand_address'], task_context.token
-        )
-        expand_options = {}
-        # 发起关键词分析任务
-        expand_task = self.expand_service.submit_expand_task(spider_result=spider_result,
-                                                             expand_options=expand_options,
-                                                             callback=callback)
-
-        task_context['expand_token'] = expand_task['analyze_token']
-        task_context['callback'] = expand_task['callback']
-
-        self.task_context_service.suspend(task_context)
+        # callback = 'http://{}/api/keyword-expansion/expand_keywords?task_token={}'.format(
+        #     settings['expand_address'], task_context.token
+        # )
+        # expand_options = {}
+        # # 发起关键词分析任务
+        # expand_task = self.expand_service.submit_expand_task(spider_result=spider_result,
+        #                                                      expand_options=expand_options,
+        #                                                      callback=callback)
+        #
+        # task_context['expand_token'] = expand_task['analyze_token']
+        # task_context['callback'] = expand_task['callback']
+        #
+        # self.task_context_service.suspend(task_context)
 
     def recover_after_expand_service_callback(self, task_token):
         task_context = self.task_context_service.awake(task_token)

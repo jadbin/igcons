@@ -1,9 +1,11 @@
 # coding=utf-8
 
 import uuid
+import os
+import pickle
 
 from guniflask.context import service
-
+from guniflask.config import settings
 
 class TaskContext:
     def __init__(self):
@@ -35,7 +37,10 @@ class TaskContextService:
         挂起任务
         :param task_context: task上下文
         """
-        pass
+        task_token = str(task_context.token)
+        with open(os.path.join(settings['task_context_dir'], task_token) + ".pkl", "wb") as f:
+            pickle.dump(task_context, f)
+
 
     def awake(self, task_token: str) -> TaskContext:
         """
@@ -43,4 +48,5 @@ class TaskContextService:
         :param task_token: task token
         :return:
         """
-        pass
+        with open(os.path.join(settings['task_context_dir'], str(task_token)) + ".pkl", "rb") as f:
+            return pickle.load(f)

@@ -25,6 +25,7 @@ class KeywordExpansionController:
     def spider_service_callback(self):
         task_token = request.args.get('task_token')
         self.keyword_expansion_service.recover_after_spider_service_callback(task_token)
+        return jsonify({'code': 200})
 
     @post_route('/keyword-expansion/expasion-callback')
     def expand_callback(self):
@@ -42,6 +43,7 @@ class KeywordExpansionController:
         spider_name = request.json['spider_name']
         keyword = request.json['spider_name']
         self.keyword_expansion_service.start_keyword_expansion(keyword=keyword, spider_name=spider_name)
+        return jsonify({"code": 200})
 
 @blueprint('/front')
 class KeywordExpansionController:
@@ -81,4 +83,3 @@ class KeywordExpansionController:
         method = getattr(obj, self.load_unjudge_keywords_method)
         unjudge_keywords = method(load_num)
         return jsonify(unjudge_keywords)
-

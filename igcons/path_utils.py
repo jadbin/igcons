@@ -53,7 +53,7 @@ class PathUtils:
 
     @property
     def spider_result_dir(self):
-        return join(self.spider_dir, ".spider_data")
+        return join(self.spider_dir, ".spider_data/")
 
     @property
     def spider_result_file(self):

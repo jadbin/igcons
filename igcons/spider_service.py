@@ -3,6 +3,7 @@
 import requests
 import json
 from os.path import join
+from igcons.path_utils import PathUtils
 
 from guniflask.context import service
 from guniflask.config import settings
@@ -11,11 +12,11 @@ from guniflask.config import settings
 @service
 class SpiderService:
 
-    def __init__(self):
+    def __init__(self, path_utils: PathUtils):
         self.spider_service_address = settings['spider_service_address']
         self.spider_dir = settings['spider_dir']
         self.spider_result_file = settings['spider_result_file']
-        pass
+        self.path_utils = path_utils
 
     def submit_spider_task(self, spider_name: str, spider_options: dict = None, callback: str = None) -> dict:
         data = {'spider_name': spider_name, 'spider_options': spider_options, 'callback': callback}
@@ -27,8 +28,9 @@ class SpiderService:
         pass
 
     def get_spider_result(self, spider_token: str):
-        with open(join(self.path_utils.spider_result_dir(spider_token), self.spider_result_file), 'r') as f:
-            data = json.load(f, ensure_ascii=False)
+        path = join(join(join(self.path_utils.spider_result_dir, spider_token), "result/", self.path_utils.spider_result_file))
+        with open(path, 'r') as f:
+            data = json.load(f)
         return data
 
 
