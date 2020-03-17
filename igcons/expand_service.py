@@ -6,7 +6,7 @@ from guniflask.context import service
 from guniflask.config import settings
 
 
-@service
+@service('expand-judge-service')
 class ExpandService:
 
     def __init__(self):
@@ -32,3 +32,22 @@ class ExpandService:
         """
         # TODO
         pass
+
+    def receive_judge_results(self, result: list):
+        """
+        获取用户研判合格的关键词列表，并存入图谱
+        :param result:
+        :return:
+        """
+        print("receive_judge_results ...")
+        pass
+
+    def load_unjudge_keywords(self, load_num) -> list:
+        """
+        从数据库读取未研判的关键词
+        :page_num: 每一页显示多少条记录
+        :return:
+        """
+        print("load_unjudge_keywords ...")
+        unjudge_keywords = ['a', 'b', 'c']
+        return unjudge_keywords

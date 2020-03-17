@@ -1,0 +1,8 @@
+id:                     存储id
+keyword:     str,       关键词
+context:     str,       关键词相关上下文信息
+clause:      str,       条款
+insert_time: timestamp, 关键词入库时间
+flag:        bool,      是否研判
+judge_time:  timestamp, 研判时间
+judge_user:  str,       研判用户
