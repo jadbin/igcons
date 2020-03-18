@@ -16,6 +16,10 @@ class TaskContext:
     def token(self):
         return self._token
 
+    @property
+    def attributes(self):
+        return self._attributes
+
     def __getitem__(self, key):
         return self._attributes.get(key)
 

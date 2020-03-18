@@ -13,10 +13,10 @@ class ExpandService:
         self.expand_service_address = settings['expand_service_address']
         pass
 
-    def submit_expand_task(self, spider_results: str, expand_options: dict = None, callback: str = None) -> dict:
+    def submit_expand_task(self, spider_result, expand_options: dict = None, callback: str = None) -> dict:
 
-        data = {'spider_results': spider_results, 'expand_options': expand_options, 'callback': callback}
-        response = requests.post('http://{}/submit/expand-task'.format(self.expand_service_address), json=data)
+        data = {'keywords': spider_result['keyword'], 'cleaned_text':spider_result['txt'], 'expand_options': expand_options, 'callback': callback}
+        response = requests.post('http://{}/api/submit-expand-task'.format(self.expand_service_address), json=data)
         return response.json()
 
     def get_expand_status(self, token: str):
