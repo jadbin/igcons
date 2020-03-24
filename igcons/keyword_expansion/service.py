@@ -4,7 +4,7 @@ from guniflask.context import service
 from guniflask.config import settings
 
 from igcons.spider_service import SpiderService
-from igcons.expand_service import  ExpandService
+from igcons.expand_service import ExpandService
 from igcons.judge_service import JudgeService
 from igcons.task_context import TaskContext, TaskContextService
 
@@ -79,8 +79,7 @@ class KeywordExpansionService:
 
     def recover_after_expand_service_callback(self, task_token):
         task_context = self.task_context_service.awake(task_token)
-        print("####################### expand task_context: ", task_context.attributes)
-        # TODO: 异步运行人工研判任务 manual_judge
+        self.manual_judge(task_context)
 
     def manual_judge(self, task_context):
         """
@@ -90,10 +89,11 @@ class KeywordExpansionService:
         """
 
         # 获取关键词拓展的结果
-        expand_result = self.expand_service.get_expand_result(task_context['expand_token'])
+        expand_result = self.expand_service.get_expand_results(str(task_context['expand_token']))
+        print("######### expand_result:", expand_result)
 
         callback = 'http://{}/api/keyword-expansion/manual-judge?task_token={}'.format(
-            settings['judge_address'], task_context.token
+            settings['server_address'], task_context.token
         )
         judge_options = {}
         # 提交分析任务并发起人工研判的通知

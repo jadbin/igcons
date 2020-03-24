@@ -58,3 +58,11 @@ class PathUtils:
     @property
     def spider_result_file(self):
         return "result.json"
+
+    @property
+    def expand_dir(self):
+        return settings['expand_dir']
+
+    @property
+    def expand_result_dir(self):
+        return join(self.expand_dir, ".expand_data/")

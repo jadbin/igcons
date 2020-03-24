@@ -1,17 +1,26 @@
 # coding=utf-8
 
 import requests
+from os.path import join
+import json
+from flask import jsonify
 
+
+from igcons.path_utils import PathUtils
 from guniflask.context import service
 from guniflask.config import settings
+
+from igcons.app import db
+from igcons.models.announce import Announce
+
 
 
 @service('expand-judge-service')
 class ExpandService:
 
-    def __init__(self):
+    def __init__(self, path_utils: PathUtils):
         self.expand_service_address = settings['expand_service_address']
-        pass
+        self.path_utils = path_utils
 
     def submit_expand_task(self, spider_result, expand_options: dict = None, callback: str = None) -> dict:
 
@@ -19,19 +28,22 @@ class ExpandService:
         response = requests.post('http://{}/api/submit-expand-task'.format(self.expand_service_address), json=data)
         return response.json()
 
-    def get_expand_status(self, token: str):
+    def get_expand_status(self, expand_token: str):
         """
         """
         pass
 
-    def get_expand_results(self, token: str) -> list:
+    def get_expand_results(self, expand_token: str) -> list:
         """
 
         :param token:
         :return: 返回的是拓展得到的关键词列表 [{'word':---, 'key': ---}]
         """
-        # TODO
-        pass
+        path = join(
+            join(join(self.path_utils.expand_result_dir, expand_token), "result/", self.path_utils.spider_result_file))
+        with open(path, 'r') as f:
+            data = json.load(f)
+        return data
 
     def receive_judge_results(self, result: list):
         """
@@ -39,15 +51,21 @@ class ExpandService:
         :param result:
         :return:
         """
-        print("receive_judge_results ...")
-        pass
 
-    def load_unjudge_keywords(self, load_num) -> list:
+        for item in result:
+            print("########### item: ", item)
+            line = Announce.query.filter_by(id=item['id']).update({'flag': item['flag'], 'judge_user':item['judge_user']})
+            print("$$$$$$$$$$$$$$$$$$$$$$ ", line)
+            # property_type.update_by_dict(item, ignore='id,clause,context,insert_time,judge_time')
+        db.session.commit()
+
+    def load_unjudge_keywords(self) -> list:
         """
         从数据库读取未研判的关键词
         :page_num: 每一页显示多少条记录
         :return:
         """
-        print("load_unjudge_keywords ...")
-        unjudge_keywords = ['a', 'b', 'c']
-        return unjudge_keywords
+
+        items = Announce.query.filter_by(flag=False)
+        d = [p.to_dict() for p in items]
+        return d
