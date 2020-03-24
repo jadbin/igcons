@@ -46,8 +46,8 @@ class KeywordExpansionController:
         self.keyword_expansion_service.start_keyword_expansion(keyword=keyword, spider_name=spider_name)
         return jsonify({"code": 200})
 
-@blueprint('/front')
-class KeywordExpansionController:
+@blueprint('/api')
+class FrontController:
     def __init__(self, path_utils: PathUtils, expansion_service: ExpandService):
         self.path_utils = path_utils
         self.expand_service = expansion_service
@@ -63,9 +63,7 @@ class KeywordExpansionController:
         request.json['result']: [{'id':--, 'keyword':--, 'flag':1, 'judge_user':'--'},{'id':--, 'keyword':--, 'flag':2, 'judge_user':'--'} ..., ... ]
         :return:
         """
-        print("!!!!!!!!!!!!!!!!!!!!!  ", request.json)
         results = request.json['result']
-        print("@@@@@@@@@@@@@@@@@@@@ results: ", results)
         bean_context = current_app.bean_context
         assert isinstance(bean_context, BeanContext)
         obj = bean_context.get_bean(self.expand_judge_service_bean_name)
@@ -73,7 +71,7 @@ class KeywordExpansionController:
         method(results)
         return 'receive judge result'
 
-    @post_route('/load_unjudge_keywords')
+    @post_route('/judge/load_unjudge_keywords')
     def load_unjudge_keywords(self):
         """
         查询未进行研判的关键词数据

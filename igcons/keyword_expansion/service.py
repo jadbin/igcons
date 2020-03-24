@@ -90,20 +90,26 @@ class KeywordExpansionService:
 
         # 获取关键词拓展的结果
         expand_result = self.expand_service.get_expand_results(str(task_context['expand_token']))
-        print("######### expand_result:", expand_result)
-
-        callback = 'http://{}/api/keyword-expansion/manual-judge?task_token={}'.format(
-            settings['server_address'], task_context.token
-        )
+        # 数据库中存储待研判关键词
         judge_options = {}
-        # 提交分析任务并发起人工研判的通知
-        judge_task = self.judge_service.submit_judge_task(expand_result=expand_result,
+        callback = ''
+        self.judge_service.submit_judge_task(expand_result=expand_result,
                                                           judge_options=judge_options,
                                                           callback=callback)
-        task_context['judge_token'] = judge_task['judge_token']
-        task_context['callback'] = judge_task['callback']
 
-        self.task_context_service.susped(task_context)
+
+        # callback = 'http://{}/api/keyword-expansion/manual-judge?task_token={}'.format(
+        #     settings['server_address'], task_context.token
+        # )
+        # judge_options = {}
+        # # 提交分析任务并发起人工研判的通知
+        # judge_task = self.judge_service.submit_judge_task(expand_result=expand_result,
+        #                                                   judge_options=judge_options,
+        #                                                   callback=callback)
+        # task_context['judge_token'] = judge_task['judge_token']
+        # task_context['callback'] = judge_task['callback']
+        #
+        # self.task_context_service.susped(task_context)
 
     def recover_after_manual_judge_service_callback(self, task_token, manual_judge_result):
         """

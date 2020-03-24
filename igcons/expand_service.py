@@ -51,12 +51,8 @@ class ExpandService:
         :param result:
         :return:
         """
-
         for item in result:
-            print("########### item: ", item)
-            line = Announce.query.filter_by(id=item['id']).update({'flag': item['flag'], 'judge_user':item['judge_user']})
-            print("$$$$$$$$$$$$$$$$$$$$$$ ", line)
-            # property_type.update_by_dict(item, ignore='id,clause,context,insert_time,judge_time')
+            Announce.query.filter_by(id=item['id']).update({'flag': item['flag'], 'judge_user':item['judge_user']})
         db.session.commit()
 
     def load_unjudge_keywords(self) -> list:

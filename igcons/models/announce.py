@@ -6,7 +6,7 @@ from sqlalchemy import text as _text
 # context:     str,       关键词相关上下文信息
 # clause:      str,       条款
 # insert_time: timestamp, 关键词入库时间
-# flag:        bool,      是否研判
+# flag:        int,      是否研判 / 是否保存
 # judge_time:  timestamp, 研判时间
 # judge_user:  str,       研判用户
 
